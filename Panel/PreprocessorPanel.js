@@ -24,6 +24,12 @@
     function initAngularWatchers() {
         var injectAngularWatchers = function (){
             if(!('angular' in window)) return false;
+            
+            var theScope = angular.element( window.document.querySelector('[ng-app]') ).scope();
+            
+            if (!theScope) {
+              theScope = angular.element( window.document.querySelector('body') ).scope();
+            }
 
             return (function getWatchCount(scope, scopeHash) {
                 // default for scopeHash
@@ -49,7 +55,7 @@
                 watchCount+= getWatchCount(scope.$$nextSibling, scopeHash);
 
                 return watchCount;
-            })(angular.element( window.document.querySelector('[ng-app]') ).scope());
+            })(theScope);
         };
 
         window.lastCount = 0;
